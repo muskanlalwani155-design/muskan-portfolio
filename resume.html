@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muskan Lalwani — ATS Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: #f3f4f6;
+      color: #111827;
+      line-height: 1.5;
+      padding: 40px 20px;
+    }
+
+    /* Print / Download Floating Bar */
+    .download-bar {
+      max-width: 800px;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .print-btn {
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background 0.2s;
+    }
+
+    .print-btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Resume Page Container (Standard A4) */
+    .resume-page {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 44px 52px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #111827;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .name {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .role-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .contact-info {
+      font-size: 13px;
+      color: #4b5563;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .contact-info a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+
+    /* Section Structure */
+    .section {
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #d1d5db;
+      padding-bottom: 4px;
+      margin-bottom: 9px;
+      color: #111827;
+    }
+
+    .summary-text {
+      font-size: 12.8px;
+      color: #374151;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    /* Skills Grid */
+    .skills-group {
+      font-size: 12.8px;
+      margin-bottom: 4px;
+      color: #374151;
+    }
+
+    .skills-group strong {
+      color: #111827;
+      font-weight: 600;
+    }
+
+    /* Project & Education Items */
+    .item {
+      margin-bottom: 12px;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+
+    .item-title {
+      font-size: 13.8px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .item-tech {
+      font-size: 12px;
+      font-weight: 500;
+      color: #4b5563;
+      font-style: italic;
+    }
+
+    .item-date {
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    .item-links {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .item-links a {
+      color: #1d4ed8;
+      text-decoration: none;
+      margin-right: 12px;
+    }
+
+    .item-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Bullet Points */
+    .bullet-list {
+      list-style-type: disc;
+      margin-left: 18px;
+      font-size: 12.5px;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    .bullet-list li {
+      margin-bottom: 2.5px;
+      text-align: justify;
+    }
+
+    /* Print / PDF Mode */
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .download-bar {
+        display: none;
+      }
+      .resume-page {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+      @page {
+        margin: 1cm 1.2cm;
+        size: A4 portrait;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Button -->
+  <div class="download-bar">
+    <button class="print-btn" onclick="window.print()">
+      📥 Save / Download as PDF
+    </button>
+  </div>
+
+  <!-- ATS Document Page -->
+  <main class="resume-page">
+    
+    <!-- Header -->
+    <header class="header">
+      <h1 class="name">Muskan Lalwani</h1>
+      <p class="role-title">Software Developer | Frontend & Full Stack</p>
+      <div class="contact-info">
+        <span>Hyderabad, Telangana, India</span>
+        <span>•</span>
+        <span>+91 7989633465</span>
+        <span>•</span>
+        <a href="mailto:muskanlalwani155@gmail.com">muskanlalwani155@gmail.com</a>
+        <span>•</span>
+        <a href="https://linkedin.com/in/muskanlalwani-dev" target="_blank">linkedin.com/in/muskanlalwani-dev</a>
+        <span>•</span>
+        <a href="https://github.com/muskanlalwani155-design" target="_blank">github.com/muskanlalwani155-design</a>
+      </div>
+    </header>
+
+    <!-- Professional Summary -->
+    <section class="section">
+      <h2 class="section-title">Professional Summary</h2>
+      <p class="summary-text">
+        Detail-oriented Software Developer with practical experience engineering responsive Single-Page Applications (SPAs) with React.js, modern JavaScript (ES6+), and CSS frameworks, alongside solid backend architecture in Python, Node.js, Express.js, and RESTful APIs. Skilled in designing schema models for MongoDB Atlas, MySQL, and TiDB Cloud, implementing AST/security guardrails, and building robust client-facing interfaces. Experienced in unit testing with Postman, version control with Git/GitHub, and deploying production web systems on Vercel and Render.
+      </p>
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="section">
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-group">
+        <strong>Languages:</strong> Python, JavaScript (ES6+), SQL, HTML5, CSS3
+      </div>
+      <div class="skills-group">
+        <strong>Frontend:</strong> React.js, Bootstrap, Flexbox, CSS Grid, DOM Manipulation, Single-Page Applications (SPAs)
+      </div>
+      <div class="skills-group">
+        <strong>Backend & APIs:</strong> Node.js, Express.js, RESTful APIs, JSON Server, Axios, Asynchronous Programming
+      </div>
+      <div class="skills-group">
+        <strong>Databases & Cloud:</strong> MongoDB Atlas, MySQL, TiDB Cloud, Relational Schema Design
+      </div>
+      <div class="skills-group">
+        <strong>Tools & Libraries:</strong> Git, GitHub, VS Code, Postman, Streamlit, Pandas, Chart.js, Vercel, Render
+      </div>
+    </section>
+
+    <!-- Key Projects -->
+    <section class="section">
+      <h2 class="section-title">Key Projects</h2>
+
+      <!-- Project 1: AI Inventory Assistant -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">AI-Powered Inventory & Analytics Dashboard</span>
+          <span class="item-date">Python, Streamlit, Gemini API, TiDB Cloud, Pandas</span>
+        </div>
+        <div class="item-links">
+          <a href="https://ai-inventory-assistant-rqunq7appvtpmfr2pdvbspc.streamlit.app/" target="_blank">Live Demo: Streamlit App</a> | 
+          <a href="https://github.com/muskanlalwani155-design/AI-Inventory-Assistant" target="_blank">GitHub Repository</a>
+        </div>
+        <ul class="bullet-list">
+          <li>Architected an interactive inventory assistant allowing users to query live databases using natural English, converting text to SQL via the Google Gemini API.</li>
+          <li>Enforced backend security validation to block destructive SQL operations (DROP, DELETE, UPDATE), restricting execution strictly to safe SELECT queries.</li>
+          <li>Integrated connection pooling with a remote TiDB Cloud (MySQL) cluster and used Pandas to aggregate inventory trends and generate real-time business insights.</li>
+        </ul>
+      </div>
+
+      <!-- Project 2: Smart Clinic Healthcare Portal -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Smart Clinic Healthcare Portal</span>
+          <span class="item-date">React.js, Node.js, Express.js, MongoDB Atlas, Vercel</span>
+        </div>
+        <div class="item-links">
+            <a href="https://smart-clinic-portal.vercel.app/login">Live Demo: vercel App</a> |
+          <a href="https://github.com/muskanlalwani155-design/Smart-Clinic-Portal" target="_blank">GitHub Repository</a>
+        </div>
+        <ul class="bullet-list">
+          <li>Engineered a full-stack clinical management suite to streamline doctor appointment booking, patient registrations, and prescription records.</li>
+          <li>Designed secure RESTful API endpoints with Express and MongoDB Atlas, enforcing validation rules for real-time doctor slot availability.</li>
+          <li>Implemented role-based access control (RBAC) to ensure confidentiality of patient medical histories and clinical consult notes.</li>
+        </ul>
+      </div>
+
+      <!-- Project 3: Student Management System -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Student Management CRUD Application</span>
+          <span class="item-date">React.js, Node.js, Express.js, Axios, Bootstrap, Vercel</span>
+        </div>
+        <div class="item-links">
+          <a href="https://student-management-app-sable.vercel.app/" target="_blank">Live Demo: Vercel App</a> | 
+          <a href="https://github.com/muskanlalwani155-design/Student-Management-App" target="_blank">GitHub Repository</a>
+        </div>
+        <ul class="bullet-list">
+          <li>Engineered a full-stack single-page application (SPA) in React.js delivering complete Create, Read, Update, and Delete (CRUD) operations for student academic records.</li>
+          <li>Designed modular RESTful endpoints in Node.js and Express.js with client-side Axios error interceptors and schema validation.</li>
+          <li>Verified endpoint payloads using Postman and deployed the responsive frontend on Vercel with decoupled API services hosted on Render.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Bachelor of Commerce in Computer Applications</span>
+          <span class="item-date">Graduated: June 2025</span>
+        </div>
+        <div class="item-tech">Geetanjali Degree College, Osmania University — Hyderabad, India</div>
+      </div>
+    </section>
+
+    <!-- Certifications & Simulations -->
+    <section class="section">
+      <h2 class="section-title">Certifications & Job Simulations</h2>
+      <ul class="bullet-list">
+        <li><strong>Deloitte Australia — Technology Consulting Job Simulation:</strong> Cloud migration feasibility and technology evaluation.</li>
+        <li><strong>Tata Consultancy Services (TCS) — Cybersecurity Analyst Job Simulation:</strong> IAM security controls, risk analysis, and identity management.</li>
+      </ul>
+    </section>
+
+  </main>
+
+</body>
+</html>

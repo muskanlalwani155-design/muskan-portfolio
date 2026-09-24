@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muskan Lalwani — Software Engineer & Systems Architect</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@500;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-base: #05070d;
+      --surface: rgba(13, 17, 28, 0.72);
+      --surface-hover: rgba(22, 28, 45, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(99, 102, 241, 0.5);
+      --indigo: #6366f1;
+      --cyan: #06b6d4;
+      --violet: #8b5cf6;
+      --emerald: #10b981;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+      --mono: 'JetBrains Mono', monospace;
+      --display: 'Cabinet Grotesk', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: default;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    /* Interactive Space Canvas */
+    #spaceCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Deep Space Ambient Glow */
+    .space-nebula {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 15% 25%, rgba(99, 102, 241, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Floating Cursor Tracker */
+    .custom-cursor {
+      width: 10px;
+      height: 10px;
+      background: var(--cyan);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.08s ease;
+      box-shadow: 0 0 15px var(--cyan), 0 0 30px var(--cyan);
+    }
+    .custom-cursor-follower {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.16s ease-out;
+    }
+
+    /* Modern Floating Navbar */
+    header.site-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 16px 6%;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 24px;
+      background: rgba(13, 17, 28, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .brand-title {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      font-weight: 500;
+    }
+
+    .brand-status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--emerald);
+      animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-menu a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-menu a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-github {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+
+    .nav-github:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--indigo), var(--cyan)) !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      padding: 8px 22px !important;
+      border-radius: 20px !important;
+      margin-left: 8px;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+      border: none;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45);
+    }
+
+    /* Mobile Hamburger */
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 75px;
+      left: 6%;
+      right: 6%;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 20px;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+      backdrop-filter: blur(20px);
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14.5px;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 8px;
+    }
+
+    .mobile-menu a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Main Container */
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Hero Section */
+    .hero-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 140px 8% 80px;
+      gap: 60px;
+      position: relative;
+    }
+
+    .hero-info {
+      flex: 1.3;
+    }
+
+    .status-capsule {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 16px;
+      border-radius: 30px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: #a5b4fc;
+      margin-bottom: 24px;
+    }
+
+    .hero-heading {
+      font-family: var(--display);
+      font-size: 58px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-heading span.gradient-text {
+      background: linear-gradient(135deg, #fff 30%, var(--cyan) 70%, var(--indigo) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .typewriter-strip {
+      font-family: var(--mono);
+      font-size: 20px;
+      color: var(--cyan);
+      min-height: 32px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+    }
+
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 22px;
+      background-color: var(--cyan);
+      margin-left: 4px;
+      animation: blink 0.9s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .hero-bio {
+      font-size: 17px;
+      color: var(--text-dim);
+      max-width: 580px;
+      margin-bottom: 35px;
+      line-height: 1.7;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--indigo), var(--cyan));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+      border: none;
+    }
+    .action-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(6, 182, 212, 0.45);
+    }
+
+    .action-btn.glass {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid var(--border-subtle);
+    }
+    .action-btn.glass:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Spatial Hero Card */
+    .hero-visual {
+      flex: 0.9;
+      display: flex;
+      justify-content: center;
+      perspective: 1200px;
+    }
+
+    .profile-spatial-box {
+      width: 340px;
+      height: 460px;
+      position: relative;
+      border-radius: 20px;
+      padding: 10px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+    }
+
+    .profile-spatial-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+    .floating-tech-hud {
+      position: absolute;
+      padding: 10px 18px;
+      background: rgba(13, 17, 28, 0.88);
+      border: 1px solid var(--border-focus);
+      border-radius: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .floating-tech-hud.hud-top {
+      top: -20px;
+      right: -25px;
+    }
+    .floating-tech-hud.hud-bottom {
+      bottom: -20px;
+      left: -25px;
+    }
+
+    /* Projects Section */
+    .section-wrap {
+      padding: 110px 8%;
+      position: relative;
+    }
+
+    .section-title-wrap {
+      margin-bottom: 50px;
+    }
+    
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      display: inline-block;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    
+    .section-title {
+      font-family: var(--display);
+      font-size: 42px;
+      font-weight: 800;
+    }
+
+    /* Project Cards Architecture */
+    .projects-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .project-row-card {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 35px;
+      backdrop-filter: blur(14px);
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 40px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .project-row-card:hover {
+      border-color: var(--border-focus);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(99, 102, 241, 0.12);
+      background: var(--surface-hover);
+    }
+
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-badge-pill {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--indigo);
+      margin-bottom: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .project-name {
+      font-family: var(--display);
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
+    .project-description {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .project-techs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .tech-badge {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+
+    .project-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: auto;
+      flex-wrap: wrap;
+    }
+
+    .project-btn {
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .project-btn.demo {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      color: var(--cyan);
+    }
+
+    .project-btn.demo:hover {
+      background: var(--cyan);
+      color: #06070a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+    }
+
+    .project-btn.source {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+    }
+
+    .project-btn.source:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Architecture Preview Box */
+    .arch-preview-box {
+      background: #090c14;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      font-size: 13.5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .arch-title {
+      color: #a5b4fc;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .arch-points {
+      list-style: none;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .arch-points li {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .arch-points li i {
+      color: var(--cyan);
+      font-size: 11px;
+    }
+
+    /* Contact Section */
+    .contact-wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 45px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s, background 0.2s;
+      margin-top: 8px;
+      cursor: text;
+    }
+    .input-field:focus {
+      border-color: var(--indigo);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 14px rgba(99, 102, 241, 0.25);
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .field-group {
+      margin-bottom: 20px;
+    }
+    .field-group label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #cbd5e1;
+      letter-spacing: 0.5px;
+    }
+
+    #formAlert {
+      display: none;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-container {
+        flex-direction: column-reverse;
+        padding-top: 130px;
+        text-align: center;
+      }
+      .cta-group { justify-content: center; }
+      .typewriter-strip { justify-content: center; }
+      .project-row-card { grid-template-columns: 1fr; }
+      .field-row { grid-template-columns: 1fr; }
+      .floating-tech-hud { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu { display: none; }
+      .menu-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fullscreen Interactive Canvas (Starfield + Meteor Showers + Click Starbursts) -->
+  <canvas id="spaceCanvas"></canvas>
+  <div class="space-nebula"></div>
+
+  <!-- Floating Custom Pointer Tracker -->
+  <div class="custom-cursor" id="cursorDot"></div>
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
+
+  <!-- Clean Floating Navbar -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="#about" class="brand-title">
+        <span class="brand-status-dot"></span>
+        Muskan Lalwani
+        <span class="brand-badge">Software Engineer</span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-menu">
+        <a href="#about">About</a>
+        <a href="#projects">Architecture & Projects</a>
+        <a href="https://github.com/muskanlalwani155-design" target="_blank" rel="noopener noreferrer" class="nav-github" title="View GitHub Repositories">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="#contact" class="nav-cta">Get In Touch</a>
+      </nav>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="menu-toggle" id="menuBtn" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about" onclick="toggleMenu()">About</a>
+      <a href="#projects" onclick="toggleMenu()">Architecture & Projects</a>
+      <a href="https://github.com/muskanlalwani155-design" target="_blank" rel="noopener noreferrer" onclick="toggleMenu()"><i class="fab fa-github"></i> GitHub Repositories</a>
+      <a href="#contact" onclick="toggleMenu()" style="color: var(--cyan); font-weight: 600;">Get In Touch</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <header class="hero-container" id="about">
+      <div class="hero-info">
+        <div class="status-capsule">
+          <i class="fas fa-shield-heart" style="color: var(--emerald);"></i> Open to Full-Time Engineering Roles
+        </div>
+        <h1 class="hero-heading">
+          Engineering Reliable <br>
+          <span class="gradient-text">Full-Stack Systems & AI</span>
+        </h1>
+        <div class="typewriter-strip">
+          <span id="terminalTypewriter"></span><span class="typewriter-cursor"></span>
+        </div>
+        <p class="hero-bio">
+          I am Muskan Lalwani — an engineer dedicated to designing high-throughput web applications, cloud datastores, and production-ready architectures with zero bloat and clean design.
+        </p>
+        <div class="cta-group">
+          <a href="#projects" class="action-btn primary"><i class="fas fa-code-branch"></i> Explore Systems</a>
+          <a href="Muskan_Lalwani_Resume.pdf" download="Muskan_Lalwani_Resume.pdf" class="action-btn glass"><i class="fas fa-file-pdf"></i> Get ATS Resume</a>
+        </div>
+      </div>
+
+      <!-- Spatial 3D Perspective Card -->
+      <div class="hero-visual">
+        <div class="profile-spatial-box" id="spatialFrame">
+          <img src="profile.png" alt="Muskan Lalwani">
+          
+          <div class="floating-tech-hud hud-top">
+            <i class="fas fa-database" style="color: var(--cyan);"></i> TiDB Cloud + Gemini API
+          </div>
+          <div class="floating-tech-hud hud-bottom">
+            <i class="fab fa-react" style="color: #61dafb;"></i> MERN Stack Architecture
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section class="section-wrap" id="projects">
+      <div class="section-title-wrap">
+        <span class="section-tag">Core Architectural Work</span>
+        <h2 class="section-title">Engineered Production Systems</h2>
+      </div>
+
+      <div class="projects-stack">
+        
+        <!-- Project 1: AI-Powered Inventory & Analytics Dashboard -->
+        <div class="project-row-card">
+          <div class="project-meta">
+            <div>
+              <div class="project-badge-pill">GENERATIVE AI & CLOUD DATABASE</div>
+              <h3 class="project-name">AI-Powered Inventory & Analytics Dashboard</h3>
+              <p class="project-description">
+                Eliminated manual SQL dependency by engineering an intelligent assistant that translates natural English questions into accurate SQL queries using the Google Gemini API. Integrated strict AST/keyword security guardrails blocking DROP, DELETE, or UPDATE operations (only safe SELECT queries permitted), connected live with connection pooling to a remote TiDB Cloud (MySQL) cluster, and built an interactive Streamlit UI delivering automatic summaries and plain-language insights.
+              </p>
+              <div class="project-techs">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Streamlit</span>
+                <span class="tech-badge">Google Gemini API</span>
+                <span class="tech-badge">MySQL / TiDB Cloud</span>
+                <span class="tech-badge">Pandas</span>
+                <span class="tech-badge">Security Guardrails</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a href="https://ai-inventory-assistant-rqunq7appvtpmfr2pdvbspc.streamlit.app/" target="_blank" rel="noopener noreferrer" class="project-btn demo">
+                <i class="fas fa-arrow-up-right-from-square"></i> Production Demo
+              </a>
+              <a href="https://github.com/muskanlalwani155-design/AI-Inventory-Assistant" target="_blank" rel="noopener noreferrer" class="project-btn source">
+                <i class="fab fa-github"></i> Source Code
+              </a>
+            </div>
+          </div>
+          <div class="arch-preview-box">
+            <div class="arch-title"><i class="fas fa-shield-alt"></i> Architectural Highlights</div>
+            <ul class="arch-points">
+              <li><i class="fas fa-check"></i> Plain English to SQL translation via Google Gemini API</li>
+              <li><i class="fas fa-check"></i> Security guardrails enforcing safe SELECT queries only</li>
+              <li><i class="fas fa-check"></i> Live remote TiDB Cloud connection with connection pooling</li>
+              <li><i class="fas fa-check"></i> Dynamic Streamlit UI with table views, filters, and chat history</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 2: Student Management System -->
+        <div class="project-row-card">
+          <div class="project-meta">
+            <div>
+              <div class="project-badge-pill">FULL CRUD ENGINE</div>
+              <h3 class="project-name">Student Management System</h3>
+              <p class="project-description">
+                Developed a reliable full-stack CRUD application managing academic student records, enrollments, and performance grading. Built clean REST APIs with Express and Axios client connections featuring strict payload validations. Deployed production frontend on Vercel and backend on Render.
+              </p>
+              <div class="project-techs">
+                <span class="tech-badge">React.js</span>
+                <span class="tech-badge">Axios</span>
+                <span class="tech-badge">Express.js</span>
+                <span class="tech-badge">REST APIs</span>
+                <span class="tech-badge">Render</span>
+                <span class="tech-badge">Vercel</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a href="https://student-management-app-sable.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-btn demo">
+                <i class="fas fa-arrow-up-right-from-square"></i> Production Demo
+              </a>
+              <a href="https://github.com/muskanlalwani155-design/Student-Management-App" target="_blank" rel="noopener noreferrer" class="project-btn source">
+                <i class="fab fa-github"></i> Source Code
+              </a>
+            </div>
+          </div>
+          <div class="arch-preview-box">
+            <div class="arch-title"><i class="fas fa-network-wired"></i> Architectural Highlights</div>
+            <ul class="arch-points">
+              <li><i class="fas fa-check"></i> Complete Create-Read-Update-Delete cycle</li>
+              <li><i class="fas fa-check"></i> Optimistic UI updates for quick batch entry</li>
+              <li><i class="fas fa-check"></i> Decoupled backend deployment hosted on Render</li>
+              <li><i class="fas fa-check"></i> Production SPA hosted on Vercel</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 3: Campaign Attribution Dashboard -->
+        <div class="project-row-card">
+          <div class="project-meta">
+            <div>
+              <div class="project-badge-pill">PERFORMANCE ANALYTICS</div>
+              <h3 class="project-name">Campaign Attribution & Analytics Dashboard</h3>
+              <p class="project-description">
+                Built an interactive digital marketing intelligence console measuring multi-channel campaign ROI, audience funnel drop-offs, impressions, and click-through rates (CTR) with high-performance responsive charts.
+              </p>
+              <div class="project-techs">
+                <span class="tech-badge">JavaScript ES6</span>
+                <span class="tech-badge">Chart.js</span>
+                <span class="tech-badge">CSS Grid</span>
+                <span class="tech-badge">GitHub Pages</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a href="https://muskanlalwani155-design.github.io/Campaign-Analytics-Dashboard/" target="_blank" rel="noopener noreferrer" class="project-btn demo">
+                <i class="fas fa-arrow-up-right-from-square"></i> Production Demo
+              </a>
+              <a href="https://github.com/muskanlalwani155-design/Campaign-Analytics-Dashboard" target="_blank" rel="noopener noreferrer" class="project-btn source">
+                <i class="fab fa-github"></i> Source Code
+              </a>
+            </div>
+          </div>
+          <div class="arch-preview-box">
+            <div class="arch-title"><i class="fas fa-chart-line"></i> Architectural Highlights</div>
+            <ul class="arch-points">
+              <li><i class="fas fa-check"></i> Dynamic aggregation of campaign KPIs</li>
+              <li><i class="fas fa-check"></i> Custom color-coded Chart.js widgets</li>
+              <li><i class="fas fa-check"></i> Static lightweight asset delivery with 100/100 Lighthouse</li>
+              <li><i class="fas fa-check"></i> Persistent light/dark theme switcher</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 4: Smart Clinic Healthcare Portal -->
+        <div class="project-row-card">
+          <div class="project-meta">
+            <div>
+              <div class="project-badge-pill">FULL-STACK HEALTHCARE</div>
+              <h3 class="project-name">Smart Clinic Healthcare Portal</h3>
+              <p class="project-description">
+                Architected a secure clinical workflow portal streamlining patient-doctor interactions. Features appointment booking engines, doctor schedule slots, role-based authentication, and medical record logs connected to MongoDB Atlas.
+              </p>
+              <div class="project-techs">
+                <span class="tech-badge">React.js</span>
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">Express</span>
+                <span class="tech-badge">MongoDB Atlas</span>
+                <span class="tech-badge">Vercel</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/muskanlalwani155-design/Smart-Clinic-Portal" target="_blank" rel="noopener noreferrer" class="project-btn demo">
+                <i class="fas fa-arrow-up-right-from-square"></i> Production Demo
+              </a>
+              <a href="https://github.com/muskanlalwani155-design/Smart-Clinic-Portal" target="_blank" rel="noopener noreferrer" class="project-btn source">
+                <i class="fab fa-github"></i> Source Code
+              </a>
+            </div>
+          </div>
+          <div class="arch-preview-box">
+            <div class="arch-title"><i class="fas fa-shield-alt"></i> Architectural Highlights</div>
+            <ul class="arch-points">
+              <li><i class="fas fa-check"></i> Secure RESTful endpoints for appointment queries</li>
+              <li><i class="fas fa-check"></i> Doctor slot availability validation logic</li>
+              <li><i class="fas fa-check"></i> Encrypted MongoDB schemas for patient confidentiality</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 5: Yummy Food & Recipe Platform -->
+        <div class="project-row-card">
+          <div class="project-meta">
+            <div>
+              <div class="project-badge-pill">CONSUMER WEB</div>
+              <h3 class="project-name">Yummy: Modern Food & Recipe Platform</h3>
+              <p class="project-description">
+                Designed and built a multi-page culinary web platform featuring fast recipe filtering, dietary categorization, and nutritional estimation tools with an adaptive modern user interface.
+              </p>
+              <div class="project-techs">
+                <span class="tech-badge">HTML5 / Semantic</span>
+                <span class="tech-badge">Modern CSS3</span>
+                <span class="tech-badge">JavaScript ES6</span>
+                <span class="tech-badge">Responsive UI</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/muskanlalwani155-design/Yummy-Food-Platform" target="_blank" rel="noopener noreferrer" class="project-btn demo">
+                <i class="fas fa-arrow-up-right-from-square"></i> Production Demo
+              </a>
+              <a href="https://github.com/muskanlalwani155-design/Yummy-Food-Platform" target="_blank" rel="noopener noreferrer" class="project-btn source">
+                <i class="fab fa-github"></i> Source Code
+              </a>
+            </div>
+          </div>
+          <div class="arch-preview-box">
+            <div class="arch-title"><i class="fas fa-layer-group"></i> Architectural Highlights</div>
+            <ul class="arch-points">
+              <li><i class="fas fa-check"></i> 6-page modular website architecture</li>
+              <li><i class="fas fa-check"></i> Client-side search and category filtering</li>
+              <li><i class="fas fa-check"></i> Mobile-first fluid responsiveness across all screens</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="section-wrap" id="contact">
+      <div class="section-title-wrap" style="text-align: center;">
+        <span class="section-tag">Direct Communication</span>
+        <h2 class="section-title">Connect for Full-Time Roles</h2>
+      </div>
+
+      <div class="contact-wrapper">
+        <form id="contactForm">
+          <!-- Live Web3Forms Key Attached -->
+          <input type="hidden" name="access_key" value="e9e7f3e4-616d-4996-9d40-d9cc519aae5c">
+          <input type="hidden" name="subject" value="Full-Time Engineering Role Inquiry for Muskan">
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Recruiter / Hiring Manager Name *</label>
+              <input type="text" name="name" required class="input-field" placeholder="e.g. Alex Morgan">
+            </div>
+            <div class="field-group">
+              <label>Company / Organization *</label>
+              <input type="text" name="company" required class="input-field" placeholder="e.g. Google, Capgemini">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Corporate Work Email *</label>
+              <input type="email" name="email" required class="input-field" placeholder="a.morgan@company.com">
+            </div>
+            <div class="field-group">
+              <label>Phone Number</label>
+              <input type="tel" name="phone" class="input-field" placeholder="+91 98765 43210">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Role Scope & Engineering Details *</label>
+            <textarea name="message" rows="4" required class="input-field" placeholder="Please outline the full-time role responsibilities, tech requirements, or interview schedule..."></textarea>
+          </div>
+
+          <button type="submit" class="action-btn primary" id="sendBtn" style="width: 100%; justify-content: center; padding: 16px;">
+            <i class="fas fa-paper-plane"></i> Transmit Inquiry to Muskan
+          </button>
+
+          <div id="formAlert"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Interactive Cosmic Scripts -->
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function toggleMenu() {
+      mobileMenu.classList.toggle('open');
+    }
+    menuBtn.addEventListener('click', toggleMenu);
+
+    // 2. Terminal Typewriter
+    const phrases = [
+      "Full-Stack Software Engineer",
+      "AI & TiDB Cloud Architect",
+      "Specialized in Scalable Web Systems"
+    ];
+    let pIdx = 0, cIdx = 0, deleting = false;
+    const typeSpeed = 80, eraseSpeed = 40, delay = 1800;
+    const target = document.getElementById('terminalTypewriter');
+
+    function runTypewriter() {
+      const phrase = phrases[pIdx];
+      if (deleting) {
+        target.textContent = phrase.substring(0, cIdx - 1);
+        cIdx--;
+      } else {
+        target.textContent = phrase.substring(0, cIdx + 1);
+        cIdx++;
+      }
+
+      if (!deleting && cIdx === phrase.length) {
+        setTimeout(() => deleting = true, delay);
+      } else if (deleting && cIdx === 0) {
+        deleting = false;
+        pIdx = (pIdx + 1) % phrases.length;
+      }
+      setTimeout(runTypewriter, deleting ? eraseSpeed : typeSpeed);
+    }
+    document.addEventListener("DOMContentLoaded", runTypewriter);
+
+    // 3. Custom Cursor Follower & Mouse Tracking
+    const dot = document.getElementById('cursorDot');
+    const follower = document.getElementById('cursorFollower');
+    let mouse = { x: -1000, y: -1000 };
+
+    document.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      dot.style.transform = `translate3d(${e.clientX - 5}px, ${e.clientY - 5}px, 0)`;
+      follower.style.transform = `translate3d(${e.clientX - 18}px, ${e.clientY - 18}px, 0)`;
+    });
+
+    // 4. 3D Spatial Frame Perspective
+    const frame = document.getElementById('spatialFrame');
+    document.addEventListener('mousemove', (e) => {
+      if (window.innerWidth < 900) return;
+      const x = (window.innerWidth / 2 - e.pageX) / 40;
+      const y = (window.innerHeight / 2 - e.pageY) / 40;
+      frame.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    });
+
+    // 5. Starfield + Shooting Star Meteor Engine
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Cosmic Stars
+    const stars = [];
+    const meteors = [];
+    const stardustBursts = [];
+
+    class Star {
+      constructor() {
+        this.baseX = Math.random() * canvas.width;
+        this.baseY = Math.random() * canvas.height;
+        this.x = this.baseX;
+        this.y = this.baseY;
+        this.size = Math.random() * 1.6 + 0.4;
+        this.twinkleSpeed = Math.random() * 0.03 + 0.01;
+        this.alpha = Math.random();
+        this.color = Math.random() > 0.4 ? '#ffffff' : (Math.random() > 0.5 ? '#67e8f9' : '#a5b4fc');
+      }
+      update() {
+        // Twinkle pulse
+        this.alpha += this.twinkleSpeed;
+        if (this.alpha > 1 || this.alpha < 0.2) {
+          this.twinkleSpeed = -this.twinkleSpeed;
+        }
+
+        // Gentle interactive gravity towards mouse
+        const dx = mouse.x - this.baseX;
+        const dy = mouse.y - this.baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 140) {
+          const force = (140 - dist) / 140;
+          this.x = this.baseX + (dx / dist) * force * 15;
+          this.y = this.baseY + (dy / dist) * force * 15;
+        } else {
+          this.x += (this.baseX - this.x) * 0.1;
+          this.y += (this.baseY - this.y) * 0.1;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, Math.min(1, this.alpha));
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        if (this.size > 1.2) {
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = this.color;
+        }
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // Shooting Star (Meteor)
+    class Meteor {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width * 1.2;
+        this.y = Math.random() * -100;
+        this.length = Math.random() * 120 + 80;
+        this.speed = Math.random() * 9 + 12;
+        this.angle = Math.PI / 4.2; // 45 deg trajectory
+        this.dx = Math.cos(this.angle) * this.speed;
+        this.dy = Math.sin(this.angle) * this.speed;
+        this.active = false;
+        this.alpha = 1;
+      }
+      trigger() {
+        this.reset();
+        this.active = true;
+      }
+      update() {
+        if (!this.active) return;
+        this.x += this.dx;
+        this.y += this.dy;
+        if (this.x > canvas.width + 150 || this.y > canvas.height + 150) {
+          this.active = false;
+        }
+      }
+      draw() {
+        if (!this.active) return;
+        ctx.save();
+        const tailX = this.x - Math.cos(this.angle) * this.length;
+        const tailY = this.y - Math.sin(this.angle) * this.length;
+        const grad = ctx.createLinearGradient(tailX, tailY, this.x, this.y);
+        grad.addColorStop(0, 'rgba(6, 182, 212, 0)');
+        grad.addColorStop(0.7, 'rgba(99, 102, 241, 0.6)');
+        grad.addColorStop(1, '#ffffff');
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(this.x, this.y);
+        ctx.stroke();
+
+        // Meteor Head Spark
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#67e8f9';
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // Stardust Spark Burst on Click
+    const cosmicColors = ['#67e8f9', '#818cf8', '#c084fc', '#f43f5e', '#38bdf8', '#ffffff'];
+    class CosmicSpark {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.color = cosmicColors[Math.floor(Math.random() * cosmicColors.length)];
+        const angle = Math.random() * Math.PI * 2;
+        const vel = Math.random() * 5 + 1.5;
+        this.vx = Math.cos(angle) * vel;
+        this.vy = Math.sin(angle) * vel;
+        this.alpha = 1;
+        this.friction = 0.95;
+        this.size = Math.random() * 2.2 + 1;
+      }
+      update() {
+        this.vx *= this.friction;
+        this.vy *= this.friction;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= 0.022;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // Spawn Stars
+    for (let i = 0; i < 90; i++) {
+      stars.push(new Star());
+    }
+
+    // 2 Active Shooting Star slots
+    const meteor1 = new Meteor();
+    const meteor2 = new Meteor();
+    meteors.push(meteor1, meteor2);
+
+    // Natural shooting star scheduler
+    function launchMeteors() {
+      if (!meteor1.active && Math.random() > 0.3) meteor1.trigger();
+      if (!meteor2.active && Math.random() > 0.6) meteor2.trigger();
+      setTimeout(launchMeteors, Math.random() * 2500 + 2000);
+    }
+    setTimeout(launchMeteors, 1500);
+
+    // Click Fireworks / Stardust Burst
+    window.addEventListener('click', (e) => {
+      for (let i = 0; i < 30; i++) {
+        stardustBursts.push(new CosmicSpark(e.clientX, e.clientY));
+      }
+    });
+
+    // Main Space Animation Loop
+    function animateSpace() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Render Stars
+      for (let s of stars) {
+        s.update();
+        s.draw();
+      }
+
+      // Render Meteors
+      for (let m of meteors) {
+        m.update();
+        m.draw();
+      }
+
+      // Render Click Sparks
+      for (let i = stardustBursts.length - 1; i >= 0; i--) {
+        stardustBursts[i].update();
+        stardustBursts[i].draw();
+        if (stardustBursts[i].alpha <= 0) stardustBursts.splice(i, 1);
+      }
+
+      requestAnimationFrame(animateSpace);
+    }
+    animateSpace();
+
+    // 6. Live Direct Web3Forms Submission + Celebration Meteors
+    const form = document.getElementById('contactForm');
+    const alertBox = document.getElementById('formAlert');
+    const sendBtn = document.getElementById('sendBtn');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      sendBtn.disabled = true;
+      sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Transmitting Message...';
+
+      const data = new FormData(form);
+      const payload = JSON.stringify(Object.fromEntries(data));
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: payload
+        });
+        const resData = await res.json();
+
+        if (res.status === 200) {
+          alertBox.style.display = 'block';
+          alertBox.style.background = 'rgba(16, 185, 129, 0.15)';
+          alertBox.style.border = '1px solid #10b981';
+          alertBox.style.color = '#34d399';
+          alertBox.innerHTML = '✔ Transmission successful. Details sent straight to Muskan\'s inbox!';
+          
+          // Cosmic Stardust Celebration
+          meteor1.trigger();
+          meteor2.trigger();
+          for (let k = 0; k < 4; k++) {
+            setTimeout(() => {
+              const cx = window.innerWidth * 0.2 + Math.random() * (window.innerWidth * 0.6);
+              const cy = window.innerHeight * 0.3 + Math.random() * (window.innerHeight * 0.4);
+              for (let i = 0; i < 40; i++) stardustBursts.push(new CosmicSpark(cx, cy));
+            }, k * 220);
+          }
+
+          form.reset();
+        } else {
+          throw new Error(resData.message || 'Transmission failed.');
+        }
+      } catch (err) {
+        alertBox.style.display = 'block';
+        alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        alertBox.style.border = '1px solid #ef4444';
+        alertBox.style.color = '#f87171';
+        alertBox.innerHTML = '✖ Could not transmit message. Please check internet connection.';
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Transmit Inquiry to Muskan';
+      }
+    });
+  </script>
+</body>
+</html>
